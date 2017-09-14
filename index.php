@@ -13,12 +13,12 @@
     } 
     //if session exists - relocate user to diary
     else if ((array_key_exists("id", $_SESSION) AND $_SESSION['id'])) {
-        header("Location: userDiary/notesTable.php");
+        header("Location: userNotes/notesTable.php");
     }
     //if session don't exists but cookie does - set session and relocates user to diary
     else if(array_key_exists("id", $_COOKIE) AND $_COOKIE['id']) {   
         $_SESSION['id'] = $_COOKIE['id'];
-        header("Location: userDiary/notesTable.php");
+        header("Location: userNotes/notesTable.php");
     }
 
     //if user submit the form
@@ -60,7 +60,7 @@
                         //if user wants to be remembered - starting cookies
                         setcookie("id", $row['id'], time() + 60*60*24*365);
 
-                        header("Location: userDiary/notesTable.php");
+                        header("Location: userNotes/notesTable.php");
                     }
                     
                     //if all details are currect
@@ -99,7 +99,7 @@
                         
                         setcookie("id", mysqli_insert_id($link), time() + 60*60*24*365);
 
-                        header("Location: userDiary/notesTable.php");
+                        header("Location: userNotes/notesTable.php");
                     }
                 }
             }   
@@ -110,6 +110,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>BokoNotes</title>
     <? include ("header.php") ?>
     <style>
         * {
@@ -136,7 +137,9 @@
         input {
             text-align: left;
         }
+      
     </style>
+    
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>

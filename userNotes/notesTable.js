@@ -15,8 +15,10 @@ $(document).ready(function() {
         chosenColorName = $(this).attr('name');
         chosenColorVal = getColor(chosenColorName);
 
+        console.log(id, title, content, chosenColorName);
+
         $(".modal-body").addClass(chosenColorName);
-        $("#focused-note-content").addClass(chosenColorName);
+        //$("#focused-note-content").addClass(chosenColorName);
 
         focusedNote(id, title, content, chosenColorName, chosenColorVal);
     });           
@@ -57,7 +59,6 @@ const updateDB = (newNote, id, title, content, chosenColorName) => {
         method: "POST",
         url: "updateDB.php",
         data: { 
-            newNote : newNote,
             id: id,
             title: title,
             content: content,
@@ -68,7 +69,7 @@ const updateDB = (newNote, id, title, content, chosenColorName) => {
 
 const deleteFromDB = (id) => {
     $("#note" + id).fadeOut("linear");
-    $.ajax({
+    $.ajax({s
         method: "POST",
         url: "deleteFromDB.php",
         data: { 
@@ -79,8 +80,10 @@ const deleteFromDB = (id) => {
 
 const focusedNote = (id, title, content, chosenColorName, chosenColorVal) => {
     //updating modal with note's details
-    $("#focused-note input").val(title);
-    $("#focused-note textarea").val(content);
+    // $("#focused-note input").val(title);
+    // $("#focused-note textarea").val(content);
+    $("#focusedNote-title").text(title);
+    $("#focusedNote-content").text(content);
 }
 
 const unfocusedNote = () => {

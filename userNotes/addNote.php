@@ -1,11 +1,10 @@
 <!-- TODO: add colors table to new note -->
 <style>
   	#newNote {
-        width: 50%;
-        padding: 20px;
+        width: 40%;
+        padding: 6px;
         margin: 0 auto;
-        margin-top: 80px;
-        margin-bottom: 80px;
+        margin-top: 8%;
         background-color: #FAFAFA;
         text-align: center;
         border: 1px solid #E4E4E4;
@@ -17,6 +16,7 @@
         width: 100%;
         border: 0;
         border: none;
+        font-size: 25px;
     }
     #newNoteContent , #newNoteTitle:hover {
         border: 0;
@@ -45,7 +45,7 @@
   	}
   
 </style>
-<div id="newNote" class="">
+<div id="newNote" class="animated bounceInRight">
     <h5><input id="newNoteTitle" type="text" placeholder="Add new note..."></h5>
     <textarea class="form-control" rows="5" id="newNoteContent"></textarea>
     <footer id="note-color-table">
@@ -117,10 +117,10 @@
                     //gets lass note id
                     $.get("addToDB.php", function (data) {
                         id = data;
-                        $(".cards-table").append("<div id='note" + id + "' class='note card " + chosenColorName +"' data-toggle='modal' data-target='#focused-note' name='" + chosenColorName +"'><div class='card-block'><h3 class='card-title' id='title" + id + "'>" + title + "</h3><p class='card-text' id='content" + id +"'>" + content +"</p></div></div>");  
-                    })
-                                     
+                        $(".cards-table").append("<div id='note" + id + "' class='note card animated bounceInDown " + chosenColorName +"' data-toggle='modal' data-target='#focused-note' name='" + chosenColorName +"'><i id='checkIcon" + id + "' class='checkIcon unchecked-icon fa fa-square-o' aria-hidden='true' '></i><div class='card-block'><h3 class='card-title' id='title" + id + "'>" + title + "</h3><p class='card-text' id='content" + id +"'>" + content +"</p></div></div>");  
+                    })                           
                 }
+
                 $("#newNoteTitle").val('');
                 $("#newNoteContent").val('');
             }
