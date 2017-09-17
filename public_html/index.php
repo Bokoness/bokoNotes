@@ -88,7 +88,7 @@
                     
                     //updating users in DB
                     } else {
-                        //encript the password, with salt and md5
+                        //encript the password, with salt and md5 (for develpoment - no encryption)
                         $query = "UPDATE `users` SET password = '".md5(md5(mysqli_insert_id($link)).$_POST['password'])."' WHERE id = ".mysqli_insert_id($link)." LIMIT 1";
                         //update the database with the query
                         mysqli_query($link, $query);

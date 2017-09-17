@@ -53,7 +53,7 @@
     }
 
     .hoveredNote {
-        border: 5px solid #B2B2B2;
+      	box-shadow: -12px 0 25px grey, 0 12px 25px grey, 12px 0 25px grey, 0 -12px 25px grey;
     }
 
     .chosenNote {
@@ -150,32 +150,10 @@
         background-color: #8672c2;
     }
 
-    #fixed-remove-icon {
-        position: fixed;
-        left: 25px;
-        bottom: 48%;
-        z-index: 2;
-        font-size: 30px;
-    }
-
     .fast-animation {
         -moz-animation-duration: 0.5s;
         -webkit-animation-duration: 0.5s;
     }
-
-    #me {
-        background-color: #F5B400;
-        color: #030303;
-        box-shadow: 5px 5px 15px #B2B2B2;
-        border-top: 1px solid #B2B2B2;
-        width: 100%;
-        position: fixed;
-        z-index: 1000;
-        bottom: 0;
-        left: 0;
-        padding-left:10px;
-    }
-
 
 </style>
 
@@ -216,19 +194,15 @@
 
     <div class="cards-table"></div> 
 
-    <span id="fixed-remove-icon" class="fa-stack fa-lg animated bounceInDown">
-        <i id="fixed-remove-icon-circle" class="fa fa-circle-o fa-stack-2x"></i>
-        <i id='fixed-remove-icon-icon' class="fa fa-trash-o fa-stack-1x" aria-hidden="true"></i>
-    </span>
-
-    <div id='me' class='footer'><strong>&copy Made by Ness Bokobza</strong></div>
-
+    <? include("iconsContainer.php") ?>
+    <? include("mainFooter.php") ?>
     
 </body>
 
 <? include("../footer.php"); ?>
 
 <script>
+$("#icons-container").hide();
 var userId = <?php echo $_SESSION['id']; ?>;
 var chosenNotes = [];
 id = 0, title = "", content = "",chosenColorName = "white", chosenColorVal = getColor(chosenColorName);
@@ -236,8 +210,6 @@ id = 0, title = "", content = "",chosenColorName = "white", chosenColorVal = get
 $(document).ready(function() { 
 
     loadNotes();
-
-    $("#fixed-remove-icon").hide();
 
     $('#focused-note').hide().on('hide', function() { 
         $('#focused-note').modal('hide') 
@@ -250,60 +222,9 @@ $(document).ready(function() {
     })
 
     $("body").on('mouseleave', '.note', function() {
-        if(!$("#note" + id + " i").hasClass('fa-check-square-o')) {
-            $(this).removeClass('hoveredNote');
+        if(!$("#note" + id + " i").hasClass('fa-check-square-o')) 
             $("#checkIcon" + id).hide();
-        }
-    })
-
-    //when clicking on check icon
-    $("body").on('click', '.checkIcon', function(e) {
-        e.stopPropagation();
-        id = $(this).parent().attr('id').slice(4, $(this).attr('id').length);
-
-        //if check icon was unchecked
-        if($(this).hasClass('fa-square-o')) {
-            $(this).removeClass('fa-square-o ');
-            $(this).addClass('fa-check-square-o');
-
-            $(this).parent().css('z-index', chosenNotes.length + 2); //chosen Note is alwasy on top for the annimation
-            $(this).parent().removeClass('bounceInDown');
-            $(this).parent().addClass('chosenNote fast-animation flip');
-            chosenNotes.push(id);
-            toggleRemoveIcon(chosenNotes);
-        }
-
-        else {
-            $(this).removeClass('fa-check-square-o');
-            $(this).addClass('fa-square-o');
-            $(this).parent().removeClass('chosenNote fast-animation flip');
-            $(this).parent().css('z-index', '1');
-            chosenNotes = removeFromChosnNotes(chosenNotes.indexOf(id));
-            toggleRemoveIcon(chosenNotes);
-        }
-    })
-
-    //fixed-remove-icon - mouse enter
-    $("#fixed-remove-icon").mouseenter(function() {
-        $('#fixed-remove-icon-circle').removeClass('fa-circle-o');
-        $('#fixed-remove-icon-circle').addClass('fa-circle');
-        $('#fixed-remove-icon-icon').addClass('fa-inverse');
-    })
-
-    //fixed-remove-icon - mouse leave
-    $("#fixed-remove-icon").mouseleave(function() {
-        $('#fixed-remove-icon-circle').removeClass('fa-circle');
-        $('#fixed-remove-icon-circle').addClass('fa-circle-o');
-        $('#fixed-remove-icon-icon').removeClass('fa-inverse');
-    })
-
-    //fixed-remove-icon - click
-    $("#fixed-remove-icon").click(function() {
-        for(let i = 0; i < chosenNotes.length; i++) {
-            deleteFromDB(chosenNotes[i]);
-        }
-        chosenNotes = [];
-        toggleRemoveIcon(chosenNotes);
+        $(this).removeClass('hoveredNote');
     })
 
     //-------- Bootstrap modal - when openning a note --------//
@@ -335,7 +256,7 @@ $(document).ready(function() {
         $("#note" + id).removeClass(chosenColorName);
         //picking up the next color
         chosenColorName = $(this).attr('id');
-        chosenColorVal = getColor(chosenColorName);
+
         //updating note's color
         $("#note" + id).addClass(chosenColorName);
         $("#note" + id).attr('name', chosenColorName);
@@ -368,13 +289,6 @@ const loadNotes = () => {
             $("#refreshNotes").fadeIn('fast');
         }, 200);
     });
-}
-
-const removeFromChosnNotes = (val) => {
-    let firstHalf, secondHalf;
-    firstHalf = chosenNotes.slice(0, val);
-    secondHalf = chosenNotes.slice(val + 1, chosenNotes.length);
-    return firstHalf.concat(secondHalf);  
 }
 
 //updating DB
@@ -427,16 +341,6 @@ const unfocusedNote = () => {
 
     title = "";
     content = "";
-}
-
-const toggleRemoveIcon = (notes) => {
-
-    if(notes.length > 0) 
-        $('#fixed-remove-icon').show();
-
-    else 
-        $('#fixed-remove-icon').hide();
-    
 }
 </script>
 

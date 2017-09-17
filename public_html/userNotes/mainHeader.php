@@ -44,7 +44,7 @@
 <script>
     $("#refreshNotes").click(function() {
         chosenNotes = [];
-        toggleRemoveIcon(chosenNotes);
+        toggleIconsContainer(chosenNotes);
         loadNotes();    
     })
 </script>
